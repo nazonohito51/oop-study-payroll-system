@@ -5,6 +5,9 @@ namespace SalarySystem\SalarySystem\Domain\Entities;
 
 final class Employee
 {
+    // typed property
+    private string $id;
+
     /**
      * Employee constructor.
      *

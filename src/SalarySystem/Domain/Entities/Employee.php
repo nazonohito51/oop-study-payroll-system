@@ -5,7 +5,7 @@ namespace SalarySystem\SalarySystem\Domain\Entities;
 
 final class Employee
 {
-    // property type hinting
+    // typed property
     private string $id;
 
     /**

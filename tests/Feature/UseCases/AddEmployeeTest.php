@@ -6,6 +6,7 @@ namespace Tests\Feature\UseCases;
 use SalarySystem\Application\UseCases\AddEmployee;
 use SalarySystem\Domain\Repositories\EmployeeRepositoryInterface;
 use Tests\BaseTestCase;
+use SalarySystem\SalarySystem\Domain\Entities\Employee;
 
 class AddEmployeeTest extends BaseTestCase
 {

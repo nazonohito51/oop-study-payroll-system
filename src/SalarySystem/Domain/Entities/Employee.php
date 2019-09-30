@@ -5,7 +5,6 @@ namespace SalarySystem\SalarySystem\Domain\Entities;
 
 final class Employee
 {
-
     /**
      * Employee constructor.
      *

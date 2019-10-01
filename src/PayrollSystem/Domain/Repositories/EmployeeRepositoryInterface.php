@@ -1,10 +1,10 @@
 <?php
 declare(strict_types=1);
 
-namespace SalarySystem\Domain\Repositories;
+namespace PayrollSystem\Domain\Repositories;
 
-use SalarySystem\Domain\Entities\Employee;
-use SalarySystem\Domain\Exceptions\SaveEntityException;
+use PayrollSystem\Domain\Entities\Employee;
+use PayrollSystem\Domain\Exceptions\SaveEntityException;
 
 interface EmployeeRepositoryInterface extends RepositoryInterface
 {

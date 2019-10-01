@@ -1,9 +1,9 @@
 <?php
 declare(strict_types=1);
 
-namespace SalarySystem\Application\UseCases;
+namespace PayrollSystem\Application\UseCases;
 
-use SalarySystem\Domain\Repositories\EmployeeRepositoryInterface;
+use PayrollSystem\Domain\Repositories\EmployeeRepositoryInterface;
 
 class AddEmployee
 {

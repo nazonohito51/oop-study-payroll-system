@@ -3,29 +3,29 @@
 return [
     'layer rule' => [
         'Application' => [
-            'define' => ['\SalarySystem\Application\\'],
+            'define' => ['\PayrollSystem\Application\\'],
             'description' => 'Application layer',
         ],
         'Domain' => [
-            'define' => ['\SalarySystem\Domain\\'],
+            'define' => ['\PayrollSystem\Domain\\'],
             'description' => 'Domain layer',
             'depender' => ['Application'],
         ],
     ],
     'datetime must be immutable' => [
-        'SalarySystem' => [
-            'define' => ['\SalarySystem\\', '\Tests\\'],
+        'PayrollSystem' => [
+            'define' => ['\PayrollSystem\\', '\Tests\\'],
             'description' => 'This application',
         ],
         'Carbon' => [
             'define' => ['\Carbon\Carbon'],
             'description' => 'Carbon(mutable)',
-            'depender' => ['!SalarySystem'],
+            'depender' => ['!PayrollSystem'],
         ],
         'DateTime' => [
             'define' => ['\DateTime'],
             'description' => 'DateTime(mutable)',
-            'depender' => ['!SalarySystem'],
+            'depender' => ['!PayrollSystem'],
         ],
     ]
 ];

@@ -5,7 +5,7 @@ namespace Tests\Feature\UseCases;
 
 use Carbon\Carbon;
 use Carbon\CarbonImmutable;
-use SalarySystem\Domain\Repositories\TimeCardRepositoryInterface;
+use PayrollSystem\Domain\Repositories\TimeCardRepositoryInterface;
 use Tests\BaseTestCase;
 
 class PunchTimeCardTest extends BaseTestCase

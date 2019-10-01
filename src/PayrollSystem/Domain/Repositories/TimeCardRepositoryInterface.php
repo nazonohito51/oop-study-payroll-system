@@ -1,10 +1,10 @@
 <?php
 declare(strict_types=1);
 
-namespace SalarySystem\Domain\Repositories;
+namespace PayrollSystem\Domain\Repositories;
 
-use SalarySystem\Domain\Entities\TimeCard;
-use SalarySystem\Domain\Exceptions\SaveEntityException;
+use PayrollSystem\Domain\Entities\TimeCard;
+use PayrollSystem\Domain\Exceptions\SaveEntityException;
 
 interface TimeCardRepositoryInterface extends RepositoryInterface
 {

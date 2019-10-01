@@ -12,7 +12,7 @@ return [
             'depender' => ['Application'],
         ],
     ],
-    'datetime must be immutable' => [
+    '<error>Mutable使うんじゃねぇ、殺すぞ 😇</error>' => [
         'PayrollSystem' => [
             'define' => ['\PayrollSystem\\', '\Tests\\'],
             'description' => 'This application',

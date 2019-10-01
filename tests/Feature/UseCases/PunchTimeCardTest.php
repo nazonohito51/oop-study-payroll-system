@@ -14,12 +14,12 @@ class PunchTimeCardTest extends BaseTestCase
     {
         parent::setUp();
 
-        Carbon::setTestNow(Carbon::now());
+        CarbonImmutable::setTestNow(CarbonImmutable::now());
     }
 
     protected function tearDown(): void
     {
-        Carbon::setTestNow();
+        CarbonImmutable::setTestNow();
 
         parent::tearDown();
     }

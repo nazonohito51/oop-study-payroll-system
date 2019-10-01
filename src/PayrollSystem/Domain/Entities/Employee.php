@@ -3,25 +3,26 @@ declare(strict_types=1);
 
 namespace PayrollSystem\Domain\Entities;
 
+use PayrollSystem\Domain\ValueObjects\EmployeeId;
+use PayrollSystem\Domain\ValueObjects\PayClassification;
+
 final class Employee
 {
-    // typed property
-    private string $id;
+    private EmployeeId $id;
+    private string $name;
+    private string $address;
+    private PayClassification $paymentClassification;
 
-    /**
-     * Employee constructor.
-     *
-     * @param string $id
-     * @param string $name
-     * @param string $address
-     * @param int    $salariedClassification
-     */
     public function __construct(
-        string $id,
+        EmployeeId $id,
         string $name,
         string $address,
-        int $salariedClassification
+        PayClassification $paymentClassification
     )
     {
+        $this->id = $id;
+        $this->name = $name;
+        $this->address = $address;
+        $this->paymentClassification = $paymentClassification;
     }
 }

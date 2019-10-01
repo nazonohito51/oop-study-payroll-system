@@ -7,7 +7,7 @@ jobs:
   build:
     docker:
       # Specify the version you desire here
-      - image: circleci/php:7.4-cli
+      - image: php:7.4.0RC1-alpine3.10
 
       # Specify service dependencies here if necessary
       # CircleCI maintains a library of pre-built images
@@ -21,8 +21,8 @@ jobs:
     steps:
       - checkout
 
-      - run: sudo apt update # PHP CircleCI 2.0 Configuration File# PHP CircleCI 2.0 Configuration File sudo apt install zlib1g-dev libsqlite3-dev
-      - run: sudo docker-php-ext-install zip
+      #- run: sudo apt update # PHP CircleCI 2.0 Configuration File# PHP CircleCI 2.0 Configuration File sudo apt install zlib1g-dev libsqlite3-dev
+      #- run: sudo docker-php-ext-install zip
 
       # Download and cache dependencies
       - restore_cache:
@@ -32,7 +32,8 @@ jobs:
             # fallback to using the latest cache if no exact match is found
             - v1-dependencies-
 
-      - run: composer install -n --prefer-dist
+      - run: curl -sS https://getcomposer.org/installer | php
+      - run: php composer.phar install -n --prefer-dist
 
       - save_cache:
           key: v1-dependencies-{{ checksum "composer.json" }}
@@ -56,4 +57,4 @@ jobs:
       #- run: ./vendor/bin/phpunit tests/
       #- run: ./vendor/bin/codecept build
       #- run: ./vendor/bin/codecept run
-      - run: php ./bin/analyze-deps verify --rule ./conf/dependency_rule.php ./src ./tests
+      - run: ./vendor/bin/analyze-deps verify --rule ./conf/dependency_rule.php ./src ./tests

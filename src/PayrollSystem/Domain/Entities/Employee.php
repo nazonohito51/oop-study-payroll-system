@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace SalarySystem\SalarySystem\Domain\Entities;
+namespace PayrollSystem\Domain\Entities;
 
 final class Employee
 {

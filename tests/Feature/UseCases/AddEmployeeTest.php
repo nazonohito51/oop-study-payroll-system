@@ -3,10 +3,10 @@ declare(strict_types=1);
 
 namespace Tests\Feature\UseCases;
 
-use SalarySystem\Application\UseCases\AddEmployee;
-use SalarySystem\Domain\Repositories\EmployeeRepositoryInterface;
+use PayrollSystem\Application\UseCases\AddEmployee;
+use PayrollSystem\Domain\Repositories\EmployeeRepositoryInterface;
 use Tests\BaseTestCase;
-use SalarySystem\SalarySystem\Domain\Entities\Employee;
+use PayrollSystem\Domain\Entities\Employee;
 
 class AddEmployeeTest extends BaseTestCase
 {
@@ -53,7 +53,7 @@ class AddEmployeeTest extends BaseTestCase
      * @param $salariedClassification
      * @param $hourlyWage
      * @dataProvider provideAddHourlyEmployeeWithInvalidArguments
-     * @expectedException \SalarySystem\Application\Exceptions\InvalidArgumentException
+     * @expectedException \PayrollSystem\Application\Exceptions\InvalidArgumentException
      * @expectedExceptionMessage 入力されたパラメータに誤りがあります
      */
     public function testAddHourlyEmployeeWithInvalidArguments($employeeId, $name, $address, $salariedClassification, $hourlyWage)
@@ -117,7 +117,7 @@ class AddEmployeeTest extends BaseTestCase
      * @param $salariedClassification
      * @param $salaryWage
      * @dataProvider provideAddHourlyEmployeeWithInvalidArguments
-     * @expectedException \SalarySystem\Application\Exceptions\InvalidArgumentException
+     * @expectedException \PayrollSystem\Application\Exceptions\InvalidArgumentException
      * @expectedExceptionMessage 入力されたパラメータに誤りがあります
      */
     public function testAddSalaryEmployeeWithInvalidArguments($employeeId, $name, $address, $salariedClassification, $salaryWage)

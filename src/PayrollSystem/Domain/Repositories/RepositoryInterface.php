@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace SalarySystem\Domain\Repositories;
+namespace PayrollSystem\Domain\Repositories;
 
 interface RepositoryInterface
 {

@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace SalarySystem\Application\Exceptions;
+namespace PayrollSystem\Application\Exceptions;
 
 
 class InvalidArgumentException extends RuntimeException

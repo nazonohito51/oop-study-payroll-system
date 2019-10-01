@@ -5,6 +5,8 @@ namespace Tests\Feature\UseCases;
 
 use PayrollSystem\Application\UseCases\AddEmployee;
 use PayrollSystem\Domain\Repositories\EmployeeRepositoryInterface;
+use PayrollSystem\Domain\ValueObjects\EmployeeId;
+use PayrollSystem\Domain\ValueObjects\HourlyClassification;
 use Tests\BaseTestCase;
 use PayrollSystem\Domain\Entities\Employee;
 
@@ -13,7 +15,8 @@ class AddEmployeeTest extends BaseTestCase
     public function testAddHourlyEmployee()
     {
         // Arrange
-        $expectedEmployee = new Employee('5.002.0186', 'name', 'address', 1000);
+        $employeeId = new EmployeeId('5.002.0186');
+        $expectedEmployee = new Employee($employeeId, 'name', 'address', new HourlyClassification(1000));
         $repository = $this->createMock(EmployeeRepositoryInterface::class);
         $repository->expects($this->once())
             ->method('add')
@@ -22,10 +25,10 @@ class AddEmployeeTest extends BaseTestCase
         $sut = new AddEmployee($repository);
 
         // Act
-        $ret = $sut->addHourlyEmployee('5.002.0186', 'name', 'address', 1000);
+        $sut->addHourlyEmployee('5.002.0186', 'name', 'address', 1000);
 
         // Assert
-        $this->assertTrue($ret);
+//        $this->assertTrue($ret);
     }
 
     public function provideAddHourlyEmployeeWithInvalidArguments()
@@ -33,16 +36,13 @@ class AddEmployeeTest extends BaseTestCase
         $validEmployeeId = '5.002.0186';
         $validName = 'ほげ 太郎';
         $validAddress = '東京都港区六本木1-2-3';
-        $validSalariedClassification = 0;
         $validHourlyWage = 1000;
 
         return [
-            'invalid employeeId 1' => ['', $validName, $validAddress, $validSalariedClassification, $validHourlyWage],
-            'invalid employeeId 2' => ['11_char_str', $validName, $validAddress, $validSalariedClassification, $validHourlyWage],
-            'invalid name' => [$validEmployeeId, '', $validAddress, $validSalariedClassification, $validHourlyWage],
-            'invalid address' => [$validEmployeeId, $validName, '', $validSalariedClassification, $validHourlyWage],
-            'invalid salariedClassification' => [$validEmployeeId, $validName, $validAddress, 11111, $validHourlyWage],
-            'invalid hourlyWage' => [$validEmployeeId, $validName, $validAddress, $validSalariedClassification, -500],
+            'invalid employeeId' => ['', $validName, $validAddress, $validHourlyWage],
+            'invalid name' => [$validEmployeeId, '', $validAddress, $validHourlyWage],
+            'invalid address' => [$validEmployeeId, $validName, '', $validHourlyWage],
+            'invalid hourlyWage' => [$validEmployeeId, $validName, $validAddress, -500],
         ];
     }
 
@@ -50,28 +50,22 @@ class AddEmployeeTest extends BaseTestCase
      * @param $employeeId
      * @param $name
      * @param $address
-     * @param $salariedClassification
-     * @param $hourlyWage
+     * @param $hourlyRate
      * @dataProvider provideAddHourlyEmployeeWithInvalidArguments
      * @expectedException \PayrollSystem\Application\Exceptions\InvalidArgumentException
      * @expectedExceptionMessage 入力されたパラメータに誤りがあります
      */
-    public function testAddHourlyEmployeeWithInvalidArguments($employeeId, $name, $address, $salariedClassification, $hourlyWage)
+    public function testAddHourlyEmployeeWithInvalidArguments($employeeId, $name, $address, $hourlyRate)
     {
         // Arrange
-        $expectedEmployee = new Employee($employeeId, $name, $address, $salariedClassification);
         $repository = $this->createMock(EmployeeRepositoryInterface::class);
-        $repository->expects($this->once())
-            ->method('add')
-            ->with($expectedEmployee)
-            ->willReturn(true);
         $sut = new AddEmployee($repository);
 
         // Act
-        $ret = $sut->addHourlyEmployee($employeeId, $name, $address, $hourlyWage);
+        $ret = $sut->addHourlyEmployee($employeeId, $name, $address, $hourlyRate);
 
         // Assert
-        $this->assertTrue($ret);
+//        $this->assertTrue($ret);
     }
 
     public function testAddSalaryEmployee()

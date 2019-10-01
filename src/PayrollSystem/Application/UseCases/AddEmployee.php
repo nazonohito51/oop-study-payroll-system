@@ -23,12 +23,22 @@ class AddEmployee
      * @param string $name
      * @param string $address
      * @param int $hourlyRate
+     * @throws \PayrollSystem\Application\Exceptions\InvalidArgumentException
      */
     public function addHourlyEmployee(string $employeeId, string $name, string $address, int $hourlyRate): void
     {
         try {
-            $employeeId = new EmployeeId($employeeId);
-            $employee = new Employee($employeeId, $name, $address, new HourlyClassification($hourlyRate));
+            $notification = new Notification();
+
+            try {
+                $employeeId = new EmployeeId($employeeId);
+            } catch (InvalidArgumentException $e) {
+                $notification->addError('employeeId is invalid.');
+            }
+
+            if ($notification->isEmpty()) {
+                $employee = new Employee($employeeId, $name, $address, new HourlyClassification($hourlyRate));
+            }
         } catch (\PayrollSystem\Domain\Exceptions\InvalidArgumentException $e) {
             throw new \PayrollSystem\Application\Exceptions\InvalidArgumentException('入力されたパラメータに誤りがあります');
         }

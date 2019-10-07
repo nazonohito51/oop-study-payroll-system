@@ -5,8 +5,11 @@ namespace Tests\Feature\UseCases;
 
 use PayrollSystem\Application\UseCases\AddEmployee;
 use PayrollSystem\Domain\Repositories\EmployeeRepositoryInterface;
+use PayrollSystem\Domain\ValueObjects\Address;
 use PayrollSystem\Domain\ValueObjects\EmployeeId;
 use PayrollSystem\Domain\ValueObjects\HourlyClassification;
+use PayrollSystem\Domain\ValueObjects\Name;
+use PayrollSystem\Domain\ValueObjects\SalariedClassification;
 use Tests\BaseTestCase;
 use PayrollSystem\Domain\Entities\Employee;
 
@@ -16,7 +19,9 @@ class AddEmployeeTest extends BaseTestCase
     {
         // Arrange
         $employeeId = new EmployeeId('5.002.0186');
-        $expectedEmployee = new Employee($employeeId, 'name', 'address', new HourlyClassification(1000));
+        $employeeName = new Name('name');
+        $employeeAddress = new Address('address');
+        $expectedEmployee = new Employee($employeeId, $employeeName, $employeeAddress, new HourlyClassification(1000));
         $repository = $this->createMock(EmployeeRepositoryInterface::class);
         $repository->expects($this->once())
             ->method('add')
@@ -25,10 +30,10 @@ class AddEmployeeTest extends BaseTestCase
         $sut = new AddEmployee($repository);
 
         // Act
-        $sut->addHourlyEmployee('5.002.0186', 'name', 'address', 1000);
+        $ret = $sut->addHourlyEmployee('5.002.0186', 'name', 'address', 1000);
 
         // Assert
-//        $this->assertTrue($ret);
+        $this->assertTrue($ret);
     }
 
     public function provideAddHourlyEmployeeWithInvalidArguments()
@@ -52,8 +57,6 @@ class AddEmployeeTest extends BaseTestCase
      * @param $address
      * @param $hourlyRate
      * @dataProvider provideAddHourlyEmployeeWithInvalidArguments
-     * @expectedException \PayrollSystem\Application\Exceptions\InvalidArgumentException
-     * @expectedExceptionMessage 入力されたパラメータに誤りがあります
      */
     public function testAddHourlyEmployeeWithInvalidArguments($employeeId, $name, $address, $hourlyRate)
     {
@@ -61,17 +64,22 @@ class AddEmployeeTest extends BaseTestCase
         $repository = $this->createMock(EmployeeRepositoryInterface::class);
         $sut = new AddEmployee($repository);
 
-        // Act
-        $ret = $sut->addHourlyEmployee($employeeId, $name, $address, $hourlyRate);
-
         // Assert
-//        $this->assertTrue($ret);
+        $this->expectException('\PayrollSystem\Application\Exceptions\InvalidArgumentException');
+        $this->expectExceptionMessage('入力されたパラメータに誤りがあります');
+
+        // Act
+        $sut->addHourlyEmployee($employeeId, $name, $address, $hourlyRate);
     }
 
     public function testAddSalaryEmployee()
     {
         // Arrange
-        $expectedEmployee = new Employee('5.002.0186', 'name', 'address', 1000);
+        $employeeId = new EmployeeId('5.002.0186');
+        $employeeName = new Name('name');
+        $employeeAddress = new Address('address');
+        $salary = new SalariedClassification(1000);
+        $expectedEmployee = new Employee($employeeId, $employeeName, $employeeAddress, $salary);
         $repository = $this->createMock(EmployeeRepositoryInterface::class);
         $repository->expects($this->once())
             ->method('add')
@@ -108,22 +116,18 @@ class AddEmployeeTest extends BaseTestCase
      * @param $employeeId
      * @param $name
      * @param $address
-     * @param $salariedClassification
      * @param $salaryWage
      * @dataProvider provideAddHourlyEmployeeWithInvalidArguments
-     * @expectedException \PayrollSystem\Application\Exceptions\InvalidArgumentException
-     * @expectedExceptionMessage 入力されたパラメータに誤りがあります
      */
-    public function testAddSalaryEmployeeWithInvalidArguments($employeeId, $name, $address, $salariedClassification, $salaryWage)
+    public function testAddSalaryEmployeeWithInvalidArguments($employeeId, $name, $address, $salaryWage)
     {
         // Arrange
-        $expectedEmployee = new Employee($employeeId, $name, $address, $salariedClassification);
         $repository = $this->createMock(EmployeeRepositoryInterface::class);
-        $repository->expects($this->once())
-            ->method('add')
-            ->with($expectedEmployee)
-            ->willReturn(true);
         $sut = new AddEmployee($repository);
+
+        // Assertion
+        $this->expectException('\PayrollSystem\Application\Exceptions\InvalidArgumentException');
+        $this->expectExceptionMessage('入力されたパラメータに誤りがあります');
 
         // Act
         $ret = $sut->addSalaryEmployee($employeeId, $name, $address, $salaryWage);

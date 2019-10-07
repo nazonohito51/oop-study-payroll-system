@@ -3,10 +3,11 @@ declare(strict_types=1);
 
 namespace Tests\Feature\UseCases;
 
-use Carbon\Carbon;
 use Carbon\CarbonImmutable;
 use PayrollSystem\Domain\Repositories\TimeCardRepositoryInterface;
 use Tests\BaseTestCase;
+use PayrollSystem\Domain\Entities\TimeCard;
+use PayrollSystem\Application\UseCases\PunchTimeCard;
 
 class PunchTimeCardTest extends BaseTestCase
 {

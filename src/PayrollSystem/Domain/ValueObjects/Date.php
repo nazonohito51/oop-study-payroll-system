@@ -13,7 +13,7 @@ final class Date
     private string $date;
 
     /**
-     * 実験Date constructor.
+     * Date constructor.
      * @param string $date
      */
     public function __construct(string $date)

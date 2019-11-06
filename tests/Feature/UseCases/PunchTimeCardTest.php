@@ -10,6 +10,8 @@ use PayrollSystem\Domain\Repositories\TimeCardRepositoryInterface;
 use PayrollSystem\Domain\ValueObjects\Date;
 use PayrollSystem\Domain\ValueObjects\EmployeeId;
 use Tests\BaseTestCase;
+use PayrollSystem\Domain\Entities\TimeCard;
+use PayrollSystem\Application\UseCases\PunchTimeCard;
 
 class PunchTimeCardTest extends BaseTestCase
 {

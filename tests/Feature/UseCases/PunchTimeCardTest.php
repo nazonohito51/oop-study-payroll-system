@@ -3,9 +3,12 @@ declare(strict_types=1);
 
 namespace Tests\Feature\UseCases;
 
-use Carbon\Carbon;
 use Carbon\CarbonImmutable;
+use PayrollSystem\Application\UseCases\PunchTimeCard;
+use PayrollSystem\Domain\Entities\TimeCard;
 use PayrollSystem\Domain\Repositories\TimeCardRepositoryInterface;
+use PayrollSystem\Domain\ValueObjects\Date;
+use PayrollSystem\Domain\ValueObjects\EmployeeId;
 use Tests\BaseTestCase;
 
 class PunchTimeCardTest extends BaseTestCase
@@ -27,7 +30,11 @@ class PunchTimeCardTest extends BaseTestCase
     public function testPunch()
     {
         // arrange
-        $expectedTimeCard = new TimeCard('5.002.0186', CarbonImmutable::today()->toDateString(), 8);
+        $expectedTimeCard = new TimeCard(
+            new EmployeeId('5.002.0186'),
+            new Date(CarbonImmutable::today()->toDateString()),
+            8
+        );
         $repository = $this->createMock(TimeCardRepositoryInterface::class);
         $repository->expects($this->once())
             ->method('add')

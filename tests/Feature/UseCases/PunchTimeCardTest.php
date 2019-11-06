@@ -4,8 +4,6 @@ declare(strict_types=1);
 namespace Tests\Feature\UseCases;
 
 use Carbon\CarbonImmutable;
-use PayrollSystem\Application\UseCases\PunchTimeCard;
-use PayrollSystem\Domain\Entities\TimeCard;
 use PayrollSystem\Domain\Repositories\TimeCardRepositoryInterface;
 use PayrollSystem\Domain\ValueObjects\Date;
 use PayrollSystem\Domain\ValueObjects\EmployeeId;

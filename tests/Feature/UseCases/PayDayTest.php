@@ -48,9 +48,9 @@ class PayDayTest extends BaseTestCase
             ->willReturn([$hourlyEmployee]);
 
         $timeCards = [];
-        $timeCards[] = new TimeCard($employeeId, CarbonImmutable::today()->subDay(1)->toDateString(), 5);
-        $timeCards[] = new TimeCard($employeeId, CarbonImmutable::today()->subDay(2)->toDateString(), 5);
-        $timeCards[] = new TimeCard($employeeId, CarbonImmutable::today()->subDay(3)->toDateString(), 5);
+        $timeCards[] = new TimeCard($employeeId, new Date(CarbonImmutable::today()->subDays(1)->toDateString()), 5);
+        $timeCards[] = new TimeCard($employeeId, new Date(CarbonImmutable::today()->subDays(2)->toDateString()), 5);
+        $timeCards[] = new TimeCard($employeeId, new Date(CarbonImmutable::today()->subDays(3)->toDateString()), 5);
         $timeCardRepository = $this->createMock(TimeCardRepositoryInterface::class);
         $timeCardRepository->expects($this->once())
             ->method('findByEmployeeId')

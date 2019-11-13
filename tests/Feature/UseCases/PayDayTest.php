@@ -13,11 +13,9 @@ use PayrollSystem\Domain\ValueObjects\Date;
 use PayrollSystem\Domain\ValueObjects\EmployeeId;
 use PayrollSystem\Domain\ValueObjects\HourlyClassification;
 use PayrollSystem\Domain\ValueObjects\Name;
-use PayrollSystem\Domain\ValueObjects\PayClassification;
 use PayrollSystem\Domain\ValueObjects\SalariedClassification;
 use Tests\BaseTestCase;
 use PayrollSystem\Domain\Entities\TimeCard;
-use PayrollSystem\Application\UseCases\PunchTimeCard;
 
 class PayDayTest extends BaseTestCase
 {
@@ -47,13 +45,15 @@ class PayDayTest extends BaseTestCase
             ->method('all')
             ->willReturn([$hourlyEmployee]);
 
-        $timeCards = [];
-        $timeCards[] = new TimeCard($employeeId, new Date(CarbonImmutable::today()->subDays(1)->toDateString()), 5);
-        $timeCards[] = new TimeCard($employeeId, new Date(CarbonImmutable::today()->subDays(2)->toDateString()), 5);
-        $timeCards[] = new TimeCard($employeeId, new Date(CarbonImmutable::today()->subDays(3)->toDateString()), 5);
+        $timeCards = [
+            new TimeCard($employeeId, new Date(CarbonImmutable::today()->subDays(1)->toDateString()), 5),
+            new TimeCard($employeeId, new Date(CarbonImmutable::today()->subDays(2)->toDateString()), 5),
+            new TimeCard($employeeId, new Date(CarbonImmutable::today()->subDays(3)->toDateString()), 5)
+        ];
         $timeCardRepository = $this->createMock(TimeCardRepositoryInterface::class);
         $timeCardRepository->expects($this->once())
             ->method('findByEmployeeId')
+            ->with($employeeId)
             ->willReturn($timeCards);
 
         $sut = new PayDay($employeeRepository, $timeCardRepository);

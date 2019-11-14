@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace PayrollSystem\Domain\ValueObjects;
+namespace PayrollSystem\Domain\ValueObjects\Time\Amount;
 
 use PayrollSystem\Domain\Exceptions\InvalidArgumentException;
 

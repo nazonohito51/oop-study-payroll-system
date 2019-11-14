@@ -4,9 +4,9 @@ declare(strict_types=1);
 namespace PayrollSystem\Domain\Entities;
 
 use PayrollSystem\Domain\ValueObjects\Address;
-use PayrollSystem\Domain\ValueObjects\EmployeeId;
+use PayrollSystem\Domain\ValueObjects\Identifier\EmployeeId;
 use PayrollSystem\Domain\ValueObjects\Name;
-use PayrollSystem\Domain\ValueObjects\PayClassification;
+use PayrollSystem\Domain\ValueObjects\PayClassification\PayClassification;
 
 final class Employee
 {

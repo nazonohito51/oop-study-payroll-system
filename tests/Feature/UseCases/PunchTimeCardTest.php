@@ -5,9 +5,9 @@ namespace Tests\Feature\UseCases;
 
 use Carbon\CarbonImmutable;
 use PayrollSystem\Domain\Repositories\TimeCardRepositoryInterface;
-use PayrollSystem\Domain\ValueObjects\Date;
-use PayrollSystem\Domain\ValueObjects\EmployeeId;
-use PayrollSystem\Domain\ValueObjects\Hour;
+use PayrollSystem\Domain\ValueObjects\Time\Oclock\Date;
+use PayrollSystem\Domain\ValueObjects\Identifier\EmployeeId;
+use PayrollSystem\Domain\ValueObjects\Time\Amount\Hour;
 use Tests\BaseTestCase;
 use PayrollSystem\Domain\Entities\TimeCard;
 use PayrollSystem\Application\UseCases\PunchTimeCard;

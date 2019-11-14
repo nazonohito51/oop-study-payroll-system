@@ -5,7 +5,7 @@ namespace PayrollSystem\Application\UseCases;
 
 use PayrollSystem\Domain\Repositories\EmployeeRepositoryInterface;
 use PayrollSystem\Domain\Repositories\TimeCardRepositoryInterface;
-use PayrollSystem\Domain\ValueObjects\Date;
+use PayrollSystem\Domain\ValueObjects\Time\Oclock\Date;
 
 class PayDay
 {

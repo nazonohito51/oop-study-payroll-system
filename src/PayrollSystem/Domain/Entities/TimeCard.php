@@ -2,9 +2,9 @@
 
 namespace PayrollSystem\Domain\Entities;
 
-use PayrollSystem\Domain\ValueObjects\Date;
-use PayrollSystem\Domain\ValueObjects\EmployeeId;
-use PayrollSystem\Domain\ValueObjects\Hour;
+use PayrollSystem\Domain\ValueObjects\Time\Oclock\Date;
+use PayrollSystem\Domain\ValueObjects\Identifier\EmployeeId;
+use PayrollSystem\Domain\ValueObjects\Time\Amount\Hour;
 
 final class TimeCard
 {

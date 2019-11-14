@@ -7,6 +7,7 @@ use PayrollSystem\Domain\Entities\Employee;
 use PayrollSystem\Domain\Exceptions\InvalidArgumentException;
 use PayrollSystem\Domain\Repositories\EmployeeRepositoryInterface;
 use PayrollSystem\Domain\ValueObjects\Address;
+use PayrollSystem\Domain\ValueObjects\CommissionedClassification;
 use PayrollSystem\Domain\ValueObjects\EmployeeId;
 use PayrollSystem\Domain\ValueObjects\HourlyClassification;
 use PayrollSystem\Domain\ValueObjects\Name;
@@ -58,6 +59,22 @@ class AddEmployee
             $employeeName = new Name($name);
             $employeeAddress = new Address($address);
             $employee = new Employee($employeeId, $employeeName, $employeeAddress, new SalariedClassification($monthlySalary));
+        } catch (\PayrollSystem\Domain\Exceptions\InvalidArgumentException $e) {
+            throw new \PayrollSystem\Application\Exceptions\InvalidArgumentException('入力されたパラメータに誤りがあります');
+        }
+
+        $this->employeeRepository->add($employee);
+
+        return true;
+    }
+
+    public function addCommissionedEmployee(string $employeeId, string $name, string $address, int $salaryRate, int $commissionedRate)
+    {
+        try {
+            $employeeId = new EmployeeId($employeeId);
+            $employeeName = new Name($name);
+            $employeeAddress = new Address($address);
+            $employee = new Employee($employeeId, $employeeName, $employeeAddress, new CommissionedClassification($salaryRate, $commissionedRate));
         } catch (\PayrollSystem\Domain\Exceptions\InvalidArgumentException $e) {
             throw new \PayrollSystem\Application\Exceptions\InvalidArgumentException('入力されたパラメータに誤りがあります');
         }

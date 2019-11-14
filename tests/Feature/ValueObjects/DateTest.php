@@ -4,7 +4,7 @@
 namespace Tests\Feature\ValueObjects;
 
 use PayrollSystem\Domain\Exceptions\InvalidArgumentException;
-use PayrollSystem\Domain\ValueObjects\Date;
+use PayrollSystem\Domain\ValueObjects\Time\Oclock\Date;
 use Tests\BaseTestCase;
 
 final class DateTest extends BaseTestCase

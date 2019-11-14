@@ -2,8 +2,9 @@
 
 namespace PayrollSystem\Domain\Entities;
 
-use PayrollSystem\Domain\ValueObjects\Date;
-use PayrollSystem\Domain\ValueObjects\EmployeeId;
+use PayrollSystem\Domain\ValueObjects\Time\Oclock\Date;
+use PayrollSystem\Domain\ValueObjects\Identifier\EmployeeId;
+use PayrollSystem\Domain\ValueObjects\Time\Amount\Hour;
 
 final class TimeCard
 {
@@ -11,18 +12,18 @@ final class TimeCard
 
     private Date $date;
 
-    private int $hour;
+    private Hour $hour;
 
     /**
      * TimeCard constructor.
      * @param EmployeeId $employeeId
      * @param Date $date
-     * @param int $hour
+     * @param Hour $hour
      */
     public function __construct(
         EmployeeId $employeeId,
         Date $date,
-        int $hour
+        Hour $hour
     )
     {
         $this->employeeId = $employeeId;

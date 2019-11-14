@@ -9,11 +9,11 @@ use PayrollSystem\Domain\Entities\Employee;
 use PayrollSystem\Domain\Repositories\EmployeeRepositoryInterface;
 use PayrollSystem\Domain\Repositories\TimeCardRepositoryInterface;
 use PayrollSystem\Domain\ValueObjects\Address;
-use PayrollSystem\Domain\ValueObjects\Date;
-use PayrollSystem\Domain\ValueObjects\EmployeeId;
-use PayrollSystem\Domain\ValueObjects\HourlyClassification;
+use PayrollSystem\Domain\ValueObjects\Time\Oclock\Date;
+use PayrollSystem\Domain\ValueObjects\Identifier\EmployeeId;
+use PayrollSystem\Domain\ValueObjects\PayClassification\HourlyClassification;
 use PayrollSystem\Domain\ValueObjects\Name;
-use PayrollSystem\Domain\ValueObjects\SalariedClassification;
+use PayrollSystem\Domain\ValueObjects\PayClassification\SalariedClassification;
 use Tests\BaseTestCase;
 use PayrollSystem\Domain\Entities\TimeCard;
 

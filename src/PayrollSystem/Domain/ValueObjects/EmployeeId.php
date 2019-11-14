@@ -11,7 +11,7 @@ class EmployeeId
 
     public function __construct(string $id)
     {
-        if (strlen($id) == 0) {
+        if (strlen($id) == 0 || strlen($id) > 10) {
             throw new InvalidArgumentException();
         }
 

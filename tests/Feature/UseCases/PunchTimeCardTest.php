@@ -7,6 +7,7 @@ use Carbon\CarbonImmutable;
 use PayrollSystem\Domain\Repositories\TimeCardRepositoryInterface;
 use PayrollSystem\Domain\ValueObjects\Date;
 use PayrollSystem\Domain\ValueObjects\EmployeeId;
+use PayrollSystem\Domain\ValueObjects\Hour;
 use Tests\BaseTestCase;
 use PayrollSystem\Domain\Entities\TimeCard;
 use PayrollSystem\Application\UseCases\PunchTimeCard;
@@ -33,7 +34,7 @@ class PunchTimeCardTest extends BaseTestCase
         $expectedTimeCard = new TimeCard(
             new EmployeeId('5.002.0186'),
             new Date(CarbonImmutable::today()->toDateString()),
-            8
+            new Hour(8)
         );
         $repository = $this->createMock(TimeCardRepositoryInterface::class);
         $repository->expects($this->once())

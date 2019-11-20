@@ -3,11 +3,13 @@
 
 namespace Tests\Feature\ValueObjects;
 
+use Carbon\CarbonImmutable;
 use PayrollSystem\Domain\Exceptions\InvalidArgumentException;
 use PayrollSystem\Domain\ValueObjects\Time\Oclock\Date;
 use Tests\BaseTestCase;
 
-final class DateTest extends BaseTestCase
+final class
+DateTest extends BaseTestCase
 {
     public function testConstructorSuccess()
     {
@@ -21,5 +23,13 @@ final class DateTest extends BaseTestCase
         $this->expectExceptionMessage('');
 
         new Date('tenkoma is billionare');
+    }
+
+    public function testIsTwoWeekAgo()
+    {
+        $today = CarbonImmutable::today();
+        $yesterday = CarbonImmutable::yesterday();
+
+        var_dump($today->diffInDays($yesterday, false));
     }
 }

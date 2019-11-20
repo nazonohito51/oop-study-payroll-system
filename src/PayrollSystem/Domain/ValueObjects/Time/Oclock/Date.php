@@ -4,6 +4,7 @@
 namespace PayrollSystem\Domain\ValueObjects\Time\Oclock;
 
 
+use Carbon\CarbonImmutable;
 use PayrollSystem\Domain\Exceptions\InvalidArgumentException;
 
 final class Date
@@ -23,5 +24,20 @@ final class Date
             throw new InvalidArgumentException();
         }
         $this->date = $date;
+    }
+
+    public function isFriday(): bool
+    {
+        return $this->getAsCarbonImmutable()->isFriday();
+    }
+
+    public function isTwoWeekAgo(Date $date): bool
+    {
+        return $this->getAsCarbonImmutable()->diffInDays($date->getAsCarbonImmutable()) === 14;
+    }
+
+    public function getAsCarbonImmutable(): CarbonImmutable
+    {
+        return CarbonImmutable::createFromFormat(self::DATE_FORMAT, $this->date);
     }
 }

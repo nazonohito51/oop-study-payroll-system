@@ -8,8 +8,7 @@ use PayrollSystem\Domain\Exceptions\InvalidArgumentException;
 use PayrollSystem\Domain\ValueObjects\Time\Oclock\Date;
 use Tests\BaseTestCase;
 
-final class
-DateTest extends BaseTestCase
+final class DateTest extends BaseTestCase
 {
     public function testConstructorSuccess()
     {

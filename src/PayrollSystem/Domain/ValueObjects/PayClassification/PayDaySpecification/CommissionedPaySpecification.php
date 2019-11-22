@@ -20,13 +20,23 @@ class CommissionedPaySpecification implements PayDaySpecificationInterface
     {
         if ($date->isFriday() &&
             (
-                $payRepository->getLast($this->id) === null ||
-                $payRepository->getLast($this->id)->getDate()->isTwoWeekAgo($date)
+                $this->lastPayIsTwoWeekAgo($date, $payRepository) || $this->employeeHaveNoPay($payRepository)
             )
         ) {
             return true;
         }
 
         return false;
+    }
+
+    private function lastPayIsTwoWeekAgo(Date $date, PayRepositoryInterface $payRepository): bool
+    {
+        $lastPay = $payRepository->getLast($this->id);
+        return !is_null($lastPay) && $lastPay->getDate()->isTwoWeekAgo($date);
+    }
+
+    private function employeeHaveNoPay(PayRepositoryInterface $payRepository): bool
+    {
+        return $payRepository->getLast($this->id) === null;
     }
 }

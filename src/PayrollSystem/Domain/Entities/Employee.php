@@ -28,6 +28,11 @@ final class Employee
         $this->payClassification = $paymentClassification;
     }
 
+    public function id(): EmployeeId
+    {
+        return $this->id;
+    }
+
     public function getPayDaySpecification()
     {
         // TODO: implement getPayDaySpecification

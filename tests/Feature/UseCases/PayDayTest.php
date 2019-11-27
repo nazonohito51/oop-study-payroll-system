@@ -7,21 +7,15 @@ use Carbon\CarbonImmutable;
 use PayrollSystem\Application\UseCases\PayDay;
 use PayrollSystem\Domain\Entities\Employee;
 use PayrollSystem\Domain\Entities\Pay;
+use PayrollSystem\Domain\Entities\TimeCard;
 use PayrollSystem\Domain\Factories\EmployeeFactory;
 use PayrollSystem\Domain\Repositories\EmployeeRepositoryInterface;
 use PayrollSystem\Domain\Repositories\PayRepositoryInterface;
 use PayrollSystem\Domain\Repositories\TimeCardRepositoryInterface;
-use PayrollSystem\Domain\ValueObjects\Address;
 use PayrollSystem\Domain\ValueObjects\Money\Amount;
-use PayrollSystem\Domain\ValueObjects\PayClassification\CommissionedClassification;
 use PayrollSystem\Domain\ValueObjects\Time\Amount\Hour;
 use PayrollSystem\Domain\ValueObjects\Time\Oclock\Date;
-use PayrollSystem\Domain\ValueObjects\Identifier\EmployeeId;
-use PayrollSystem\Domain\ValueObjects\PayClassification\HourlyClassification;
-use PayrollSystem\Domain\ValueObjects\Name;
-use PayrollSystem\Domain\ValueObjects\PayClassification\SalariedClassification;
 use Tests\BaseTestCase;
-use PayrollSystem\Domain\Entities\TimeCard;
 
 class PayDayTest extends BaseTestCase
 {
@@ -41,10 +35,8 @@ class PayDayTest extends BaseTestCase
 
     public function providePayDayToHourlyClassification()
     {
-        $employeeId = new EmployeeId('5.002.0186');
-        $employeeName = new Name('name');
-        $employeeAddress = new Address('address');
-        $hourlyEmployee = new Employee($employeeId, $employeeName, $employeeAddress, new HourlyClassification(1000));
+        $hourlyEmployee = (new EmployeeFactory())->createHourlyEmployee('5.002.0186', 'name', 'address', 1000);
+        $employeeId = $hourlyEmployee->id();
 
         $timeCards = [
             new TimeCard(
@@ -141,10 +133,8 @@ class PayDayTest extends BaseTestCase
 
     public function providePayDayToCommissionedClassification()
     {
-        $employeeId = new EmployeeId('5.002.0186');
-        $employeeName = new Name('name');
-        $employeeAddress = new Address('address');
-        $commissionedEmployee = new Employee($employeeId, $employeeName, $employeeAddress, new CommissionedClassification(100000, 1000));
+        $commissionedEmployee = (new EmployeeFactory())->createCommissionedEmployee('5.002.0186', 'name', 'address', 100000, 1000);
+        $employeeId = $commissionedEmployee->id();
 
         $expectedPay = new Pay($employeeId, new Date('2019-11-29'), new Amount(100000));
         $twoWeekAgoPay = new Pay($employeeId, new Date('2019-11-15'), new Amount(102000));

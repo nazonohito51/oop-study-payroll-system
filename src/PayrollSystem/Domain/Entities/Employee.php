@@ -13,7 +13,7 @@ final class Employee
     private EmployeeId $id;
     private Name $name;
     private Address $address;
-    private PayClassification $paymentClassification;
+    private PayClassification $payClassification;
 
     public function __construct(
         EmployeeId $id,
@@ -25,6 +25,11 @@ final class Employee
         $this->id = $id;
         $this->name = $name;
         $this->address = $address;
-        $this->paymentClassification = $paymentClassification;
+        $this->payClassification = $paymentClassification;
+    }
+
+    public function getPayDaySpecification()
+    {
+        // TODO: implement getPayDaySpecification
     }
 }

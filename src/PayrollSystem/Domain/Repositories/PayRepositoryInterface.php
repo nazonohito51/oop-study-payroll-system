@@ -9,4 +9,6 @@ use PayrollSystem\Domain\ValueObjects\Identifier\EmployeeId;
 interface PayRepositoryInterface extends RepositoryInterface
 {
     public function getLast(EmployeeId $id): Pay;
+
+    public function add(Pay $pay): bool;
 }

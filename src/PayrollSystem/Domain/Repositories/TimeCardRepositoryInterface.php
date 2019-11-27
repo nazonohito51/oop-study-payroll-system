@@ -8,7 +8,11 @@ use PayrollSystem\Domain\Exceptions\SaveEntityException;
 
 interface TimeCardRepositoryInterface extends RepositoryInterface
 {
-    public function findByEmployeeId(int $employeeId): TimeCard;
+    /**
+     * @param int $employeeId
+     * @return TimeCard[]
+     */
+    public function findByEmployeeId(int $employeeId): array;
 
     /**
      * @param TimeCard $timeCard

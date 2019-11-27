@@ -7,6 +7,7 @@ use Carbon\CarbonImmutable;
 use PayrollSystem\Application\UseCases\PayDay;
 use PayrollSystem\Domain\Entities\Employee;
 use PayrollSystem\Domain\Entities\Pay;
+use PayrollSystem\Domain\Factories\EmployeeFactory;
 use PayrollSystem\Domain\Repositories\EmployeeRepositoryInterface;
 use PayrollSystem\Domain\Repositories\PayRepositoryInterface;
 use PayrollSystem\Domain\Repositories\TimeCardRepositoryInterface;
@@ -92,6 +93,7 @@ class PayDayTest extends BaseTestCase
     ) {
         // arrange
         $employeeRepository = $this->createMock(EmployeeRepositoryInterface::class);
+        $employeeRepository->method('factory')->willReturn(new EmployeeFactory());
         $employeeRepository->expects($this->once())
             ->method('all')
             ->willReturn([$employee]);

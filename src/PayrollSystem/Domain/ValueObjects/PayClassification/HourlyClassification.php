@@ -25,6 +25,16 @@ class HourlyClassification implements PayClassification
 
     public function getPayDaySpecification(): PayDaySpecificationInterface
     {
-        // TODO: Implement getPayDaySpecification() method.
+        return new class implements PayDaySpecificationInterface {
+            public function isSatisfiedBy(EmployeeId $id, PayRepositoryInterface $payRepository, Date $date): bool
+            {
+                return $date->isFriday();
+            }
+        };
+    }
+
+    public function getRate(): int
+    {
+        return $this->hourlyRate;
     }
 }

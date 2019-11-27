@@ -13,27 +13,27 @@ use PayrollSystem\Domain\ValueObjects\PayClassification\SalariedClassification;
 
 class EmployeeFactory
 {
-    public function createHourlyEmployee(string $employeeId, string $name, string $address, int $hourlyRate): Employee
+    public function createHourlyEmployee(string $id, string $name, string $address, int $hourlyRate): Employee
     {
-        $employeeId = new EmployeeId($employeeId);
+        $employeeId = new EmployeeId($id);
         $employeeName = new Name($name);
         $employeeAddress = new Address($address);
 
         return new Employee($employeeId, $employeeName, $employeeAddress, new HourlyClassification($hourlyRate));
     }
 
-    public function createSalaryEmployee(string $employeeId, string $name, string $address, int $monthlySalary): Employee
+    public function createSalaryEmployee(string $id, string $name, string $address, int $monthlySalary): Employee
     {
-        $employeeId = new EmployeeId($employeeId);
+        $employeeId = new EmployeeId($id);
         $employeeName = new Name($name);
         $employeeAddress = new Address($address);
 
         return new Employee($employeeId, $employeeName, $employeeAddress, new SalariedClassification($monthlySalary));
     }
 
-    public function createCommissionedEmployee(string $employeeId, string $name, string $address, int $salaryRate, int $commissionedRate)
+    public function createCommissionedEmployee(string $id, string $name, string $address, int $salaryRate, int $commissionedRate)
     {
-        $employeeId = new EmployeeId($employeeId);
+        $employeeId = new EmployeeId($id);
         $employeeName = new Name($name);
         $employeeAddress = new Address($address);
 

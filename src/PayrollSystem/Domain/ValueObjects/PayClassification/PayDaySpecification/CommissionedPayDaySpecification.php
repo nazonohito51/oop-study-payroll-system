@@ -7,7 +7,7 @@ use PayrollSystem\Domain\Repositories\PayRepositoryInterface;
 use PayrollSystem\Domain\ValueObjects\Identifier\EmployeeId;
 use PayrollSystem\Domain\ValueObjects\Time\Oclock\Date;
 
-class CommissionedPaySpecification implements PayDaySpecificationInterface
+class CommissionedPayDaySpecification implements PayDaySpecificationInterface
 {
     private EmployeeId $id;
 
@@ -16,7 +16,7 @@ class CommissionedPaySpecification implements PayDaySpecificationInterface
         $this->id = $id;
     }
 
-    public function isSatisfiedBy(Date $date, PayRepositoryInterface $payRepository): bool
+    public function isSatisfiedBy(EmployeeId $id, PayRepositoryInterface $payRepository, Date $date): bool
     {
         if ($date->isFriday() &&
             (

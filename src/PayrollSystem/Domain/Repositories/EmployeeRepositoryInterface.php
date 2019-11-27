@@ -11,6 +11,11 @@ interface EmployeeRepositoryInterface extends RepositoryInterface
     public function findById(): Employee;
 
     /**
+     * @return Employee[]
+     */
+    public function all(): array;
+
+    /**
      * @param Employee $employee
      * @return bool
      * @throws SaveEntityException

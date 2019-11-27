@@ -7,6 +7,7 @@ use PayrollSystem\Domain\ValueObjects\Address;
 use PayrollSystem\Domain\ValueObjects\Identifier\EmployeeId;
 use PayrollSystem\Domain\ValueObjects\Name;
 use PayrollSystem\Domain\ValueObjects\PayClassification\PayClassification;
+use PayrollSystem\Domain\ValueObjects\PayClassification\PayDaySpecification\PayDaySpecificationInterface;
 
 final class Employee
 {
@@ -33,8 +34,13 @@ final class Employee
         return $this->id;
     }
 
-    public function getPayDaySpecification()
+    public function getPayDaySpecification(): PayDaySpecificationInterface
     {
-        // TODO: implement getPayDaySpecification
+        return $this->payClassification->getPayDaySpecification();
+    }
+
+    public function getPayClassification(): PayClassification
+    {
+        return $this->payClassification;
     }
 }

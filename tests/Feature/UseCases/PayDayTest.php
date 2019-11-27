@@ -99,7 +99,7 @@ class PayDayTest extends BaseTestCase
             $payRepository->expects($this->never());
         }
 
-        $sut = new PayDay($employeeRepository, $timeCardRepository);
+        $sut = new PayDay($employeeRepository, $timeCardRepository, $payRepository);
 
         // act
         $actual = $sut->pay($dateString);

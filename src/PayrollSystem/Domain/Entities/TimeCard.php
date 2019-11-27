@@ -30,4 +30,9 @@ final class TimeCard
         $this->date = $date;
         $this->hour = $hour;
     }
+
+    public function getHour(): Hour
+    {
+        return $this->hour;
+    }
 }

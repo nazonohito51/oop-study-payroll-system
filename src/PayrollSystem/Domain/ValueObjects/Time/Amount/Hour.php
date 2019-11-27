@@ -19,4 +19,9 @@ final class Hour
         }
         $this->amount = $hour;
     }
+
+    public function getAsInt(): int
+    {
+        return $this->amount;
+    }
 }

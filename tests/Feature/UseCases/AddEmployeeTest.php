@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Tests\Feature\UseCases;
 
 use PayrollSystem\Application\UseCases\AddEmployee;
+use PayrollSystem\Domain\Factories\EmployeeFactory;
 use PayrollSystem\Domain\Repositories\EmployeeRepositoryInterface;
 use PayrollSystem\Domain\ValueObjects\Address;
 use PayrollSystem\Domain\ValueObjects\PayClassification\CommissionedClassification;
@@ -24,6 +25,7 @@ class AddEmployeeTest extends BaseTestCase
         $employeeAddress = new Address('address');
         $expectedEmployee = new Employee($employeeId, $employeeName, $employeeAddress, new HourlyClassification(1000));
         $repository = $this->createMock(EmployeeRepositoryInterface::class);
+        $repository->method('factory')->willReturn(new EmployeeFactory());
         $repository->expects($this->once())
             ->method('add')
             ->with($expectedEmployee)
@@ -63,6 +65,7 @@ class AddEmployeeTest extends BaseTestCase
     {
         // Arrange
         $repository = $this->createMock(EmployeeRepositoryInterface::class);
+        $repository->method('factory')->willReturn(new EmployeeFactory());
         $sut = new AddEmployee($repository);
 
         // Assert
@@ -82,6 +85,7 @@ class AddEmployeeTest extends BaseTestCase
         $salary = new SalariedClassification(1000);
         $expectedEmployee = new Employee($employeeId, $employeeName, $employeeAddress, $salary);
         $repository = $this->createMock(EmployeeRepositoryInterface::class);
+        $repository->method('factory')->willReturn(new EmployeeFactory());
         $repository->expects($this->once())
             ->method('add')
             ->with($expectedEmployee)
@@ -122,6 +126,7 @@ class AddEmployeeTest extends BaseTestCase
     {
         // Arrange
         $repository = $this->createMock(EmployeeRepositoryInterface::class);
+        $repository->method('factory')->willReturn(new EmployeeFactory());
         $sut = new AddEmployee($repository);
 
         // Assertion
@@ -144,6 +149,7 @@ class AddEmployeeTest extends BaseTestCase
         $salary = new CommissionedClassification(300000, 1000);
         $expectedEmployee = new Employee($employeeId, $employeeName, $employeeAddress, $salary);
         $repository = $this->createMock(EmployeeRepositoryInterface::class);
+        $repository->method('factory')->willReturn(new EmployeeFactory());
         $repository->expects($this->once())
             ->method('add')
             ->with($expectedEmployee)
@@ -187,6 +193,7 @@ class AddEmployeeTest extends BaseTestCase
     {
         // Arrange
         $repository = $this->createMock(EmployeeRepositoryInterface::class);
+        $repository->method('factory')->willReturn(new EmployeeFactory());
         $sut = new AddEmployee($repository);
 
         // Assertion

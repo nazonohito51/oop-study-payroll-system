@@ -5,9 +5,12 @@ namespace PayrollSystem\Domain\Repositories;
 
 use PayrollSystem\Domain\Entities\Employee;
 use PayrollSystem\Domain\Exceptions\SaveEntityException;
+use PayrollSystem\Domain\Factories\EmployeeFactory;
 
 interface EmployeeRepositoryInterface extends RepositoryInterface
 {
+    public function factory(): EmployeeFactory;
+
     public function findById(): Employee;
 
     /**

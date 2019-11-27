@@ -31,9 +31,9 @@ final class Date
         return $this->getAsCarbonImmutable()->isFriday();
     }
 
-    public function isTwoWeekAgo(Date $date): bool
+    public function diffInDaysFrom(Date $date): int
     {
-        return $this->getAsCarbonImmutable()->diffInDays($date->getAsCarbonImmutable()) === 14;
+        return $this->getAsCarbonImmutable()->diffInDays($date->getAsCarbonImmutable());
     }
 
     public function getAsCarbonImmutable(): CarbonImmutable

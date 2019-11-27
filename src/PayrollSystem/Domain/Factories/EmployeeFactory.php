@@ -18,8 +18,9 @@ class EmployeeFactory
         $employeeId = new EmployeeId($id);
         $employeeName = new Name($name);
         $employeeAddress = new Address($address);
+        $hourlyClassification = new HourlyClassification($hourlyRate);
 
-        return new Employee($employeeId, $employeeName, $employeeAddress, new HourlyClassification($hourlyRate));
+        return new Employee($employeeId, $employeeName, $employeeAddress, $hourlyClassification);
     }
 
     public function createSalaryEmployee(string $id, string $name, string $address, int $monthlySalary): Employee
@@ -27,16 +28,18 @@ class EmployeeFactory
         $employeeId = new EmployeeId($id);
         $employeeName = new Name($name);
         $employeeAddress = new Address($address);
+        $salaryClassification = new SalariedClassification($monthlySalary);
 
-        return new Employee($employeeId, $employeeName, $employeeAddress, new SalariedClassification($monthlySalary));
+        return new Employee($employeeId, $employeeName, $employeeAddress, $salaryClassification);
     }
 
-    public function createCommissionedEmployee(string $id, string $name, string $address, int $salaryRate, int $commissionedRate)
+    public function createCommissionedEmployee(string $id, string $name, string $address, int $salaryRate, int $commissionedRate): Employee
     {
         $employeeId = new EmployeeId($id);
         $employeeName = new Name($name);
         $employeeAddress = new Address($address);
+        $commissionedClassification = new CommissionedClassification($salaryRate, $commissionedRate);
 
-        return new Employee($employeeId, $employeeName, $employeeAddress, new CommissionedClassification($salaryRate, $commissionedRate));
+        return new Employee($employeeId, $employeeName, $employeeAddress, $commissionedClassification);
     }
 }

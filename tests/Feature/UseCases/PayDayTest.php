@@ -96,7 +96,8 @@ class PayDayTest extends BaseTestCase
                 ->method('add')
                 ->with($expectedPay);
         } else {
-            $payRepository->expects($this->never());
+            $payRepository->expects($this->never())
+                ->method('add');
         }
 
         $sut = new PayDay($employeeRepository, $timeCardRepository, $payRepository);
@@ -105,7 +106,7 @@ class PayDayTest extends BaseTestCase
         $actual = $sut->pay($dateString);
 
         // assert
-        $this->assertSame(1, $actual);
+        $this->assertSame($expectedPay ? 1 : 0, $actual);
     }
 
 //    public function testPayToSalariedEmployee()

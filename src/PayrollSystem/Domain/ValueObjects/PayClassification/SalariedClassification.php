@@ -23,4 +23,9 @@ class SalariedClassification implements PayClassification
     {
         // TODO: Implement getPayDaySpecification() method.
     }
+
+    public function getRate(): int
+    {
+        // TODO: Implement getRate() method.
+    }
 }

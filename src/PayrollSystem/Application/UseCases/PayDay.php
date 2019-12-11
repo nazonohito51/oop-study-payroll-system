@@ -8,7 +8,9 @@ use PayrollSystem\Domain\Repositories\EmployeeRepositoryInterface;
 use PayrollSystem\Domain\Repositories\PayRepositoryInterface;
 use PayrollSystem\Domain\Repositories\TimeCardRepositoryInterface;
 use PayrollSystem\Domain\ValueObjects\Money\Amount;
+use PayrollSystem\Domain\ValueObjects\PayClassification\CommissionedClassification;
 use PayrollSystem\Domain\ValueObjects\PayClassification\HourlyClassification;
+use PayrollSystem\Domain\ValueObjects\PayClassification\SalariedClassification;
 use PayrollSystem\Domain\ValueObjects\Time\Oclock\Date;
 
 class PayDay
@@ -44,6 +46,14 @@ class PayDay
                         $total += $hourlyRate * $timeCard->getHour()->getAsInt();
                     }
                     $pay = new Pay($employee->id(), $date, new Amount($total));
+                    $this->payRepository->add($pay);
+                    $payDayEmployees[] = $employee;
+                } elseif ($employee->getPayClassification() instanceof SalariedClassification) {
+                    $pay = new Pay($employee->id(), $date, new Amount($employee->getPayClassification()->getRate()));
+                    $this->payRepository->add($pay);
+                    $payDayEmployees[] = $employee;
+                } elseif ($employee->getPayClassification() instanceof CommissionedClassification) {
+                    $pay = new Pay($employee->id(), $date, new Amount($employee->getPayClassification()->getRate()));
                     $this->payRepository->add($pay);
                     $payDayEmployees[] = $employee;
                 }

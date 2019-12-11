@@ -31,6 +31,11 @@ final class Date
         return $this->getAsCarbonImmutable()->isFriday();
     }
 
+    public function isEndOfMonth(): bool
+    {
+        return $this->getAsCarbonImmutable()->isLastOfMonth();
+    }
+
     public function diffInDaysFrom(Date $date): int
     {
         return $this->getAsCarbonImmutable()->diffInDays($date->getAsCarbonImmutable());

@@ -15,6 +15,7 @@ use PayrollSystem\Domain\Repositories\TimeCardRepositoryInterface;
 use PayrollSystem\Domain\ValueObjects\Money\Amount;
 use PayrollSystem\Domain\ValueObjects\Time\Amount\Hour;
 use PayrollSystem\Domain\ValueObjects\Time\Oclock\Date;
+use PHPUnit\Framework\MockObject\MockObject;
 use Tests\BaseTestCase;
 
 class PayDayTest extends BaseTestCase
@@ -109,28 +110,59 @@ class PayDayTest extends BaseTestCase
         $this->assertSame($expectedPay ? 1 : 0, $actual);
     }
 
-//    public function testPayToSalariedEmployee()
-//    {
-//        // arrange
-//        $employeeId = new EmployeeId('5.002.0186');
-//        $employeeName = new Name('name');
-//        $employeeAddress = new Address('address');
-//        $salariedEmployee = new Employee($employeeId, $employeeName, $employeeAddress, new SalariedClassification(300000));
-//        $employeeRepository = $this->createMock(EmployeeRepositoryInterface::class);
-//        $employeeRepository->expects($this->once())
-//            ->method('all')
-//            ->willReturn([$salariedEmployee]);
-//
-//        $timeCardRepository = $this->createMock(TimeCardRepositoryInterface::class);
-//
-//        $sut = new PayDay($employeeRepository, $timeCardRepository);
-//
-//        // act
-//        $actual = $sut->pay(CarbonImmutable::today()->toDateString());
-//
-//        // assert
-//        $this->assertSame(30000, $actual);
-//    }
+    public function providePayDayToSalariedClassification()
+    {
+        $salariedEmployee = (new EmployeeFactory())->createSalaryEmployee('5.002.0186', 'name', 'address', 100000);
+        $employeeId = $salariedEmployee->id();
+
+        $expectedPay = new Pay($employeeId, new Date('2019-11-30'), new Amount(100000));
+
+        return [
+            'end of month' => ['2019-11-30', $salariedEmployee, $expectedPay],
+            'before end of month' => ['2019-11-29', $salariedEmployee, null],
+            'beginning of month' => ['2019-12-01', $salariedEmployee, null],
+        ];
+    }
+
+    /**
+     * @param string $dateString
+     * @param Employee $employee
+     * @param Pay|null $expectedPay
+     * @dataProvider providePayDayToSalariedClassification
+     */
+    public function testPayDayToSalariedClassification(
+        string $dateString,
+        Employee $employee,
+        ?Pay $expectedPay
+    ) {
+        // arrange
+        $employeeRepository = $this->createMock(EmployeeRepositoryInterface::class);
+        $employeeRepository->expects($this->once())
+            ->method('all')
+            ->willReturn([$employee]);
+
+        $timeCardRepository = $this->createMock(TimeCardRepositoryInterface::class);
+        $timeCardRepository->expects($this->never())
+            ->method('findByEmployeeId');
+
+        $payRepository = $this->createMock(PayRepositoryInterface::class);
+        if ($expectedPay) {
+            $payRepository->expects($this->once())
+                ->method('add')
+                ->with($expectedPay);
+        } else {
+            $payRepository->expects($this->never())
+                ->method('add');
+        }
+
+        $sut = new PayDay($employeeRepository, $timeCardRepository, $payRepository);
+
+        // act
+        $actual = $sut->pay($dateString);
+
+        // assert
+        $this->assertSame($expectedPay ? 1 : 0, $actual);
+    }
 
     public function providePayDayToCommissionedClassification()
     {
@@ -139,10 +171,12 @@ class PayDayTest extends BaseTestCase
 
         $expectedPay = new Pay($employeeId, new Date('2019-11-29'), new Amount(100000));
         $twoWeekAgoPay = new Pay($employeeId, new Date('2019-11-15'), new Amount(102000));
+
         $payRepositoryHaveTwoWeekAgoPay = $this->createMock(PayRepositoryInterface::class);
         $payRepositoryHaveTwoWeekAgoPay->method('getLast')
             ->with($employeeId)
             ->willReturn($twoWeekAgoPay);
+
         $payRepositoryHaveNoPay = $this->createMock(PayRepositoryInterface::class);
         $payRepositoryHaveNoPay->method('getLast')
             ->with($employeeId)
@@ -160,14 +194,14 @@ class PayDayTest extends BaseTestCase
     /**
      * @param string $dateString
      * @param Employee $employee
-     * @param TimeCardRepositoryInterface $timeCardRepository
+     * @param MockObject $payRepository
      * @param Pay|null $expectedPay
      * @dataProvider providePayDayToHourlyClassification
      */
     public function testPayDayToCommissionedClassification(
         string $dateString,
         Employee $employee,
-        TimeCardRepositoryInterface $timeCardRepository,
+        MockObject $payRepository,
         ?Pay $expectedPay
     ) {
         // arrange
@@ -176,21 +210,25 @@ class PayDayTest extends BaseTestCase
             ->method('all')
             ->willReturn([$employee]);
 
-        $payRepository = $this->createMock(PayRepositoryInterface::class);
+        $timeCardRepository = $this->createMock(TimeCardRepositoryInterface::class);
+        $timeCardRepository->expects($this->never())
+            ->method('findByEmployeeId');
+
         if ($expectedPay) {
             $payRepository->expects($this->once())
                 ->method('add')
                 ->with($expectedPay);
         } else {
-            $payRepository->expects($this->never());
+            $payRepository->expects($this->never())
+                ->method('add');
         }
 
-        $sut = new PayDay($employeeRepository, $timeCardRepository);
+        $sut = new PayDay($employeeRepository, $timeCardRepository, $payRepository);
 
         // act
         $actual = $sut->pay($dateString);
 
         // assert
-        $this->assertSame(1, $actual);
+        $this->assertSame($expectedPay ? 1 : 0, $actual);
     }
 }

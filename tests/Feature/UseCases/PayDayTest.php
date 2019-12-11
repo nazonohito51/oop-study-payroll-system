@@ -186,7 +186,7 @@ class PayDayTest extends BaseTestCase
             'friday' => ['2019-11-29', $commissionedEmployee, $payRepositoryHaveTwoWeekAgoPay, $expectedPay],
             'saturday' => ['2019-11-30', $commissionedEmployee, $payRepositoryHaveTwoWeekAgoPay, null],
             'php conference' => ['2019-12-01', $commissionedEmployee, $payRepositoryHaveTwoWeekAgoPay, null],
-            'first friday' => ['2019-12-01', $commissionedEmployee, $payRepositoryHaveNoPay, $expectedPay],
+            'first friday' => ['2019-11-29', $commissionedEmployee, $payRepositoryHaveNoPay, $expectedPay],
 //            'salary with commission pay' => ['2019-11-29', $commissionedEmployee, $timeCardRepository, $expectedPay],
         ];
     }
@@ -196,7 +196,7 @@ class PayDayTest extends BaseTestCase
      * @param Employee $employee
      * @param MockObject $payRepository
      * @param Pay|null $expectedPay
-     * @dataProvider providePayDayToHourlyClassification
+     * @dataProvider providePayDayToCommissionedClassification
      */
     public function testPayDayToCommissionedClassification(
         string $dateString,

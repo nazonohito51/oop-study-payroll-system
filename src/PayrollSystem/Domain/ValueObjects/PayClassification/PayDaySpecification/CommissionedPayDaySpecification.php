@@ -9,18 +9,11 @@ use PayrollSystem\Domain\ValueObjects\Time\Oclock\Date;
 
 class CommissionedPayDaySpecification implements PayDaySpecificationInterface
 {
-    private EmployeeId $id;
-
-    public function __construct(EmployeeId $id)
-    {
-        $this->id = $id;
-    }
-
     public function isSatisfiedBy(EmployeeId $id, PayRepositoryInterface $payRepository, Date $date): bool
     {
         if ($date->isFriday() &&
             (
-                $this->lastPayIsTwoWeekAgo($date, $payRepository) || $this->employeeHaveNoPay($payRepository)
+                $this->lastPayIsTwoWeekAgo($id, $date, $payRepository) || $this->employeeHaveNoPay($id, $payRepository)
             )
         ) {
             return true;
@@ -29,14 +22,14 @@ class CommissionedPayDaySpecification implements PayDaySpecificationInterface
         return false;
     }
 
-    private function lastPayIsTwoWeekAgo(Date $date, PayRepositoryInterface $payRepository): bool
+    private function lastPayIsTwoWeekAgo(EmployeeId $id, Date $date, PayRepositoryInterface $payRepository): bool
     {
-        $lastPay = $payRepository->getLast($this->id);
+        $lastPay = $payRepository->getLast($id);
         return !is_null($lastPay) && $lastPay->getDate()->diffInDaysFrom($date) === 14;
     }
 
-    private function employeeHaveNoPay(PayRepositoryInterface $payRepository): bool
+    private function employeeHaveNoPay(EmployeeId $id, PayRepositoryInterface $payRepository): bool
     {
-        return $payRepository->getLast($this->id) === null;
+        return $payRepository->getLast($id) === null;
     }
 }

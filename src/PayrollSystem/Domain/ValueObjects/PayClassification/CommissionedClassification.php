@@ -4,14 +4,15 @@ declare(strict_types=1);
 namespace PayrollSystem\Domain\ValueObjects\PayClassification;
 
 use PayrollSystem\Domain\Exceptions\InvalidArgumentException;
+use PayrollSystem\Domain\ValueObjects\Money\Rate;
 use PayrollSystem\Domain\ValueObjects\PayClassification\PayDaySpecification\CommissionedPayDaySpecification;
 use PayrollSystem\Domain\ValueObjects\PayClassification\PayDaySpecification\PayDaySpecificationInterface;
 
 class CommissionedClassification extends SalariedClassification
 {
-    private int $commissionRate;
+    private Rate $commissionRate;
 
-    public function __construct(int $salaryRate, int $commissionRate)
+    public function __construct(Rate $salaryRate, Rate $commissionRate)
     {
         parent::__construct($salaryRate);
 
@@ -24,5 +25,10 @@ class CommissionedClassification extends SalariedClassification
     public function getPayDaySpecification(): PayDaySpecificationInterface
     {
         return new CommissionedPayDaySpecification();
+    }
+
+    public function getCommissionRate(): Rate
+    {
+        return $this->commissionRate;
     }
 }

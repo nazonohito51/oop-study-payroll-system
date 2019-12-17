@@ -6,6 +6,7 @@ namespace PayrollSystem\Domain\Factories;
 use PayrollSystem\Domain\Entities\Employee;
 use PayrollSystem\Domain\ValueObjects\Address;
 use PayrollSystem\Domain\ValueObjects\Identifier\EmployeeId;
+use PayrollSystem\Domain\ValueObjects\Money\Rate;
 use PayrollSystem\Domain\ValueObjects\Name;
 use PayrollSystem\Domain\ValueObjects\PayClassification\CommissionedClassification;
 use PayrollSystem\Domain\ValueObjects\PayClassification\HourlyClassification;
@@ -18,7 +19,7 @@ class EmployeeFactory
         $employeeId = new EmployeeId($id);
         $employeeName = new Name($name);
         $employeeAddress = new Address($address);
-        $hourlyClassification = new HourlyClassification($hourlyRate);
+        $hourlyClassification = new HourlyClassification(new Rate($hourlyRate));
 
         return new Employee($employeeId, $employeeName, $employeeAddress, $hourlyClassification);
     }
@@ -28,7 +29,7 @@ class EmployeeFactory
         $employeeId = new EmployeeId($id);
         $employeeName = new Name($name);
         $employeeAddress = new Address($address);
-        $salaryClassification = new SalariedClassification($monthlySalary);
+        $salaryClassification = new SalariedClassification(new Rate($monthlySalary));
 
         return new Employee($employeeId, $employeeName, $employeeAddress, $salaryClassification);
     }
@@ -38,7 +39,7 @@ class EmployeeFactory
         $employeeId = new EmployeeId($id);
         $employeeName = new Name($name);
         $employeeAddress = new Address($address);
-        $commissionedClassification = new CommissionedClassification($salaryRate, $commissionedRate);
+        $commissionedClassification = new CommissionedClassification(new Rate($salaryRate), new Rate($commissionedRate));
 
         return new Employee($employeeId, $employeeName, $employeeAddress, $commissionedClassification);
     }

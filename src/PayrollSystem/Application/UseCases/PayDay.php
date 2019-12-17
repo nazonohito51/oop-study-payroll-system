@@ -33,7 +33,6 @@ class PayDay
     {
         $date = new Date($dateString);
 
-        // TODO: search for employees whose payday is today.
         $employees = $this->employeeRepository->all();
         $payDayEmployees = [];
         foreach ($employees as $employee) {
@@ -43,17 +42,17 @@ class PayDay
                     $total = 0;
                     $hourlyRate = $employee->getPayClassification()->getRate();
                     foreach ($timeCards as $timeCard) {
-                        $total += $hourlyRate * $timeCard->getHour()->getAsInt();
+                        $total += $hourlyRate->calcAsInt($timeCard->getHour()->getAsInt());
                     }
                     $pay = new Pay($employee->id(), $date, new Amount($total));
                     $this->payRepository->add($pay);
                     $payDayEmployees[] = $employee;
                 } elseif ($employee->getPayClassification() instanceof SalariedClassification) {
-                    $pay = new Pay($employee->id(), $date, new Amount($employee->getPayClassification()->getRate()));
+                    $pay = new Pay($employee->id(), $date, new Amount($employee->getPayClassification()->getRate()->getAsInt()));
                     $this->payRepository->add($pay);
                     $payDayEmployees[] = $employee;
                 } elseif ($employee->getPayClassification() instanceof CommissionedClassification) {
-                    $pay = new Pay($employee->id(), $date, new Amount($employee->getPayClassification()->getRate()));
+                    $pay = new Pay($employee->id(), $date, new Amount($employee->getPayClassification()->getRate()->getAsInt()));
                     $this->payRepository->add($pay);
                     $payDayEmployees[] = $employee;
                 }

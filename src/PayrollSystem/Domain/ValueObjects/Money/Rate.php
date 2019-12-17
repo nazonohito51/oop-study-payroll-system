@@ -17,4 +17,14 @@ class Rate
 
         $this->value = $value;
     }
+
+    public function getAsInt(): int
+    {
+        return $this->value;
+    }
+
+    public function calcAsInt(int $source): int
+    {
+        return $source * $this->value;
+    }
 }

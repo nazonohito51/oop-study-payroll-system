@@ -6,15 +6,16 @@ namespace PayrollSystem\Domain\ValueObjects\PayClassification;
 use PayrollSystem\Domain\Exceptions\InvalidArgumentException;
 use PayrollSystem\Domain\Repositories\PayRepositoryInterface;
 use PayrollSystem\Domain\ValueObjects\Identifier\EmployeeId;
+use PayrollSystem\Domain\ValueObjects\Money\Rate;
 use PayrollSystem\Domain\ValueObjects\PayClassification\PayClassification;
 use PayrollSystem\Domain\ValueObjects\PayClassification\PayDaySpecification\PayDaySpecificationInterface;
 use PayrollSystem\Domain\ValueObjects\Time\Oclock\Date;
 
 class SalariedClassification implements PayClassification
 {
-    private int $salaryRate;
+    private Rate $salaryRate;
 
-    public function __construct(int $salaryRate)
+    public function __construct(Rate $salaryRate)
     {
         if ($salaryRate <= 0) {
             throw new InvalidArgumentException();
@@ -32,7 +33,7 @@ class SalariedClassification implements PayClassification
         };
     }
 
-    public function getRate(): int
+    public function getRate(): Rate
     {
         return $this->salaryRate;
     }

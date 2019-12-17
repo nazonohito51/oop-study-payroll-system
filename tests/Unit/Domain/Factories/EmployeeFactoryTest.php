@@ -7,6 +7,7 @@ use PayrollSystem\Domain\Entities\Employee;
 use PayrollSystem\Domain\Factories\EmployeeFactory;
 use PayrollSystem\Domain\ValueObjects\Address;
 use PayrollSystem\Domain\ValueObjects\Identifier\EmployeeId;
+use PayrollSystem\Domain\ValueObjects\Money\Rate;
 use PayrollSystem\Domain\ValueObjects\Name;
 use PayrollSystem\Domain\ValueObjects\PayClassification\CommissionedClassification;
 use PayrollSystem\Domain\ValueObjects\PayClassification\HourlyClassification;
@@ -21,7 +22,7 @@ class EmployeeFactoryTest extends BaseTestCase
         $employeeId = new EmployeeId('5.002.0186');
         $employeeName = new Name('name');
         $employeeAddress = new Address('address');
-        $hourlyClassification = new HourlyClassification(1000);
+        $hourlyClassification = new HourlyClassification(new Rate(1000));
         $employee = new Employee($employeeId, $employeeName, $employeeAddress, $hourlyClassification);
 
         $sut = new EmployeeFactory();
@@ -39,7 +40,7 @@ class EmployeeFactoryTest extends BaseTestCase
         $employeeId = new EmployeeId('5.002.0186');
         $employeeName = new Name('name');
         $employeeAddress = new Address('address');
-        $salaryClassification = new SalariedClassification(1000);
+        $salaryClassification = new SalariedClassification(new Rate(1000));
         $employee = new Employee($employeeId, $employeeName, $employeeAddress, $salaryClassification);
 
         $sut = new EmployeeFactory();
@@ -57,7 +58,7 @@ class EmployeeFactoryTest extends BaseTestCase
         $employeeId = new EmployeeId('5.002.0186');
         $employeeName = new Name('name');
         $employeeAddress = new Address('address');
-        $commissionedClassification = new CommissionedClassification(1000, 100);
+        $commissionedClassification = new CommissionedClassification(new Rate(1000), new Rate(100));
         $employee = new Employee($employeeId, $employeeName, $employeeAddress, $commissionedClassification);
 
         $sut = new EmployeeFactory();

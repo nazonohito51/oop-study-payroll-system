@@ -7,6 +7,7 @@ use PayrollSystem\Application\UseCases\AddEmployee;
 use PayrollSystem\Domain\Factories\EmployeeFactory;
 use PayrollSystem\Domain\Repositories\EmployeeRepositoryInterface;
 use PayrollSystem\Domain\ValueObjects\Address;
+use PayrollSystem\Domain\ValueObjects\Money\Rate;
 use PayrollSystem\Domain\ValueObjects\PayClassification\CommissionedClassification;
 use PayrollSystem\Domain\ValueObjects\Identifier\EmployeeId;
 use PayrollSystem\Domain\ValueObjects\PayClassification\HourlyClassification;
@@ -23,7 +24,7 @@ class AddEmployeeTest extends BaseTestCase
         $employeeId = new EmployeeId('5.002.0186');
         $employeeName = new Name('name');
         $employeeAddress = new Address('address');
-        $expectedEmployee = new Employee($employeeId, $employeeName, $employeeAddress, new HourlyClassification(1000));
+        $expectedEmployee = new Employee($employeeId, $employeeName, $employeeAddress, new HourlyClassification(new Rate(1000)));
         $repository = $this->createMock(EmployeeRepositoryInterface::class);
         $repository->method('factory')->willReturn(new EmployeeFactory());
         $repository->expects($this->once())
@@ -82,7 +83,7 @@ class AddEmployeeTest extends BaseTestCase
         $employeeId = new EmployeeId('5.002.0186');
         $employeeName = new Name('name');
         $employeeAddress = new Address('address');
-        $salary = new SalariedClassification(1000);
+        $salary = new SalariedClassification(new Rate(1000));
         $expectedEmployee = new Employee($employeeId, $employeeName, $employeeAddress, $salary);
         $repository = $this->createMock(EmployeeRepositoryInterface::class);
         $repository->method('factory')->willReturn(new EmployeeFactory());
@@ -146,7 +147,7 @@ class AddEmployeeTest extends BaseTestCase
         $employeeId = new EmployeeId('5.002.0186');
         $employeeName = new Name('name');
         $employeeAddress = new Address('address');
-        $salary = new CommissionedClassification(300000, 1000);
+        $salary = new CommissionedClassification(new Rate(300000), new Rate(1000));
         $expectedEmployee = new Employee($employeeId, $employeeName, $employeeAddress, $salary);
         $repository = $this->createMock(EmployeeRepositoryInterface::class);
         $repository->method('factory')->willReturn(new EmployeeFactory());

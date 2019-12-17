@@ -13,7 +13,6 @@ final class Address
     /**
      * Name constructor.
      * @param string $address
-     * @param $address
      */
     public function __construct(string $address)
     {

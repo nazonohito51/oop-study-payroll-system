@@ -13,7 +13,8 @@ class CommissionedPayDaySpecification implements PayDaySpecificationInterface
     {
         if ($date->isFriday() &&
             (
-                $this->lastPayIsTwoWeekAgo($id, $date, $payRepository) || $this->employeeHaveNoPay($id, $payRepository)
+                $this->lastPayIsTwoWeekAgo($id, $date, $payRepository) ||
+                $this->employeeHaveNoPay($id, $payRepository)
             )
         ) {
             return true;

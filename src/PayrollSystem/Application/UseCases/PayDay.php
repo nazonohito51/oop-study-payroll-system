@@ -35,7 +35,7 @@ class PayDay
         foreach ($employees as $employee) {
             if ($employee->isPayDay($date, $this->payRepository)) {
                 $total = $employee->calculatePay($this->timeCardRepository);
-                $pay = new Pay($employee->id(), $date, new Amount($total));
+                $pay = new Pay($employee->id(), $date, $total);
                 $this->payRepository->add($pay);
                 $payDayEmployees[] = $employee;
             }

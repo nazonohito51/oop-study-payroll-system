@@ -7,6 +7,7 @@ use PayrollSystem\Domain\Repositories\PayRepositoryInterface;
 use PayrollSystem\Domain\Repositories\TimeCardRepositoryInterface;
 use PayrollSystem\Domain\ValueObjects\Address;
 use PayrollSystem\Domain\ValueObjects\Identifier\EmployeeId;
+use PayrollSystem\Domain\ValueObjects\Money\Amount;
 use PayrollSystem\Domain\ValueObjects\Name;
 use PayrollSystem\Domain\ValueObjects\PayClassification\PayClassification;
 use PayrollSystem\Domain\ValueObjects\PayClassification\PayDaySpecification\PayDaySpecificationInterface;
@@ -42,9 +43,9 @@ final class Employee
         return $this->getPayClassification()->isPayDay($this->id(), $date, $payRepository);
     }
 
-    public function calculatePay(TimeCardRepositoryInterface $timeCardRepository): int
+    public function calculatePay(TimeCardRepositoryInterface $timeCardRepository): Amount
     {
-        return $this->getPayClassification()->calculatePay($this, $timeCardRepository);
+        return new Amount($this->getPayClassification()->calculatePay($this, $timeCardRepository));
     }
 
     public function getPayDaySpecification(): PayDaySpecificationInterface

@@ -16,7 +16,6 @@ class HourlyPayCalculation implements PayCalculationInterface
         foreach ($timeCards as $timeCard) {
             $total += $hourlyRate->calcAsInt($timeCard->getHour()->getAsInt());
         }
-        $total += 3000;
         return $total;
     }
 }

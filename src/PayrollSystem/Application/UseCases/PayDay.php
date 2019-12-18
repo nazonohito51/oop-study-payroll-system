@@ -37,25 +37,10 @@ class PayDay
         $payDayEmployees = [];
         foreach ($employees as $employee) {
             if ($employee->getPayDaySpecification()->isSatisfiedBy($employee->id(), $this->payRepository, $date)) {
-                if ($employee->getPayClassification() instanceof HourlyClassification) {
-                    $timeCards = $this->timeCardRepository->findByEmployeeId($employee->id());
-                    $total = 0;
-                    $hourlyRate = $employee->getPayClassification()->getRate();
-                    foreach ($timeCards as $timeCard) {
-                        $total += $hourlyRate->calcAsInt($timeCard->getHour()->getAsInt());
-                    }
-                    $pay = new Pay($employee->id(), $date, new Amount($total));
-                    $this->payRepository->add($pay);
-                    $payDayEmployees[] = $employee;
-                } elseif ($employee->getPayClassification() instanceof SalariedClassification) {
-                    $pay = new Pay($employee->id(), $date, new Amount($employee->getPayClassification()->getRate()->getAsInt()));
-                    $this->payRepository->add($pay);
-                    $payDayEmployees[] = $employee;
-                } elseif ($employee->getPayClassification() instanceof CommissionedClassification) {
-                    $pay = new Pay($employee->id(), $date, new Amount($employee->getPayClassification()->getRate()->getAsInt()));
-                    $this->payRepository->add($pay);
-                    $payDayEmployees[] = $employee;
-                }
+                $total = $employee->getPayClassification()->getCalculation()->calculateAsInt($employee, $this->timeCardRepository);
+                $pay = new Pay($employee->id(), $date, new Amount($total));
+                $this->payRepository->add($pay);
+                $payDayEmployees[] = $employee;
             }
         }
 

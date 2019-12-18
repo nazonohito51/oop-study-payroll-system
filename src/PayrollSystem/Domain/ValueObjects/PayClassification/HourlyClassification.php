@@ -5,6 +5,8 @@ namespace PayrollSystem\Domain\ValueObjects\PayClassification;
 
 use PayrollSystem\Domain\Exceptions\InvalidArgumentException;
 use PayrollSystem\Domain\Repositories\PayRepositoryInterface;
+use PayrollSystem\Domain\Services\HourlyPayCalculation;
+use PayrollSystem\Domain\Services\PayCalculationInterface;
 use PayrollSystem\Domain\ValueObjects\Identifier\EmployeeId;
 use PayrollSystem\Domain\ValueObjects\Money\Rate;
 use PayrollSystem\Domain\ValueObjects\PayClassification\PayDaySpecification\PayDaySpecificationInterface;
@@ -35,5 +37,10 @@ class HourlyClassification implements PayClassification
     public function getRate(): Rate
     {
         return $this->hourlyRate;
+    }
+
+    public function getCalculation(): PayCalculationInterface
+    {
+        return new HourlyPayCalculation();
     }
 }

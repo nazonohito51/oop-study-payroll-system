@@ -8,9 +8,6 @@ use PayrollSystem\Domain\Repositories\EmployeeRepositoryInterface;
 use PayrollSystem\Domain\Repositories\PayRepositoryInterface;
 use PayrollSystem\Domain\Repositories\TimeCardRepositoryInterface;
 use PayrollSystem\Domain\ValueObjects\Money\Amount;
-use PayrollSystem\Domain\ValueObjects\PayClassification\CommissionedClassification;
-use PayrollSystem\Domain\ValueObjects\PayClassification\HourlyClassification;
-use PayrollSystem\Domain\ValueObjects\PayClassification\SalariedClassification;
 use PayrollSystem\Domain\ValueObjects\Time\Oclock\Date;
 
 class PayDay
@@ -36,26 +33,11 @@ class PayDay
         $employees = $this->employeeRepository->all();
         $payDayEmployees = [];
         foreach ($employees as $employee) {
-            if ($employee->getPayDaySpecification()->isSatisfiedBy($employee->id(), $this->payRepository, $date)) {
-                if ($employee->getPayClassification() instanceof HourlyClassification) {
-                    $timeCards = $this->timeCardRepository->findByEmployeeId($employee->id());
-                    $total = 0;
-                    $hourlyRate = $employee->getPayClassification()->getRate();
-                    foreach ($timeCards as $timeCard) {
-                        $total += $hourlyRate->calcAsInt($timeCard->getHour()->getAsInt());
-                    }
-                    $pay = new Pay($employee->id(), $date, new Amount($total));
-                    $this->payRepository->add($pay);
-                    $payDayEmployees[] = $employee;
-                } elseif ($employee->getPayClassification() instanceof SalariedClassification) {
-                    $pay = new Pay($employee->id(), $date, new Amount($employee->getPayClassification()->getRate()->getAsInt()));
-                    $this->payRepository->add($pay);
-                    $payDayEmployees[] = $employee;
-                } elseif ($employee->getPayClassification() instanceof CommissionedClassification) {
-                    $pay = new Pay($employee->id(), $date, new Amount($employee->getPayClassification()->getRate()->getAsInt()));
-                    $this->payRepository->add($pay);
-                    $payDayEmployees[] = $employee;
-                }
+            if ($employee->isPayDay($date, $this->payRepository)) {
+                $total = $employee->calculatePay($this->timeCardRepository);
+                $pay = new Pay($employee->id(), $date, $total);
+                $this->payRepository->add($pay);
+                $payDayEmployees[] = $employee;
             }
         }
 

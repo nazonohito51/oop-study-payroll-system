@@ -3,11 +3,15 @@ declare(strict_types=1);
 
 namespace PayrollSystem\Domain\Entities;
 
+use PayrollSystem\Domain\Repositories\PayRepositoryInterface;
+use PayrollSystem\Domain\Repositories\TimeCardRepositoryInterface;
 use PayrollSystem\Domain\ValueObjects\Address;
 use PayrollSystem\Domain\ValueObjects\Identifier\EmployeeId;
+use PayrollSystem\Domain\ValueObjects\Money\Amount;
 use PayrollSystem\Domain\ValueObjects\Name;
 use PayrollSystem\Domain\ValueObjects\PayClassification\PayClassification;
 use PayrollSystem\Domain\ValueObjects\PayClassification\PayDaySpecification\PayDaySpecificationInterface;
+use PayrollSystem\Domain\ValueObjects\Time\Oclock\Date;
 
 final class Employee
 {
@@ -32,6 +36,16 @@ final class Employee
     public function id(): EmployeeId
     {
         return $this->id;
+    }
+
+    public function isPayDay(Date $date, PayRepositoryInterface $payRepository): bool
+    {
+        return $this->getPayClassification()->isPayDay($this->id(), $date, $payRepository);
+    }
+
+    public function calculatePay(TimeCardRepositoryInterface $timeCardRepository): Amount
+    {
+        return new Amount($this->getPayClassification()->calculatePay($this, $timeCardRepository));
     }
 
     public function getPayDaySpecification(): PayDaySpecificationInterface
